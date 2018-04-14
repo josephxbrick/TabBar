@@ -9,10 +9,7 @@ Framer sample: [tabbar.framer](https:)
 
 If you have Modules installed, or want to use Modules to add this module to you project, click the badge below.
 
-<a href='https://open.framermodules.com/TabBar'>
-    <img alt='Install with Framer Modules'
-    src='https://www.framermodules.com/assets/badge@2x.png' width='160' height='40' />
-</a>
+ <Link to come>
 
 Note that you can hit Ctrl+C in Modules (when TabBar is the active module) to copy a code example that you can then paste into your file. 
 
@@ -37,7 +34,7 @@ tabBar = new TabBar
 * **firstLastTabInset**: the inset between the left/right end of the tab bar and the first/last tab
 
 ## Adding tab pages (optional)
-You can add "pages" (layers, or Frames from Design) that correspond to each tab by adding them to the `pagesPanel` layer of the tab bar. (The `pagesPanel` is created only if you choose to do this.) The order in which the layers are added corresponds to the order of the tabs. So the first layer you add will be displayed when you choose the first tab, etc.  If you use `pagesPanel', you must have the same number of pages as you have tabs.
+You can add "pages" (layers, or Frames from Design) that correspond to each tab by adding them to the `pagesPanel` layer of the tab bar. (The `pagesPanel` is created only if you choose to do this.) The order in which the layers are added corresponds to the order of the tabs. So the first layer you add will be displayed when you choose the first tab, etc.  If you use `pagesPanel`, you must have the same number of pages as you have tabs.
 
 The following will add the the layers "layer1" through "layer5" to the tab bar `tabBar`.
 ```
@@ -46,69 +43,20 @@ for page in pages
 	tabBar.pagesPanel.addPage page
  ```
 ## Selecting a tab (through code) 
+You can select a tab either through the layer that represents the tab (if for some reason you have a reference to it) or - more likely - by the tab's (zero-based) index, by using tabBar.selectTab(value).
 
+### selectTab(value, animated)
 
-## Functions
-### accordion.addItem()
-Use the addItem() function to add a layer to an accordion. This can be a frame created in Design mode or a layer created in code. 
-```
-accordion.addItem(layer, expandedHeight, normalHeight, clickTarget)
-```
-* **layer**: (required) the layer to be added
-* **expandedHeight**: (required) the height of the accordion item when expanded
-* **normalheight**: (optional if not specifying `clickTarget`) the height of the accordion item when contracted. Default is the height of the provided layer.
-* **clickTarget**: (optional): the layer that when clicked expands or contracts the accordion item. The default click target is the provided layer. The click target must be either the provided layer or a descendant of the provided layer.
-### accordion.expandItem()
-Use the expandItem() function to open an accordion item.
-```
-expandItem(layer, isAnimated)
-```
-* **layer**: the layer to expand
-* **isAnimated**: (optional) boolean: whether the accordion item animates when it opens
+* **value**: either the zero-based index of the desired tab, or the layer that makes up the tab.
+* **animated**: (boolean) `true` if you want the tab bar to animate when you choose the tab, or `false` if not. Default is `true`
 
-### accordion.contractItem()
-Use the contractItem() function to close an accordion item.
+Examples
 ```
-contractItem(layer, isAnimated)
+tabBar.selectTab 0, false  # select the first tab without animating
+tabBar.selectTab tabBar.content.children[0]  # select the first tab with animation
 ```
-* **layer**: the layer to contract
-* **isAnimated**: (optional) boolean: whether the accordion item animates when it closes; default is true.
-
-## Events
-### accordion.on "expand", ->
-The expand message is fired when an accordion item expands.
+You can also select a tab by setting the selectedTabIndex property.
 ```
-accordion.on "expand", (layer, newHeight, oldHeight) ->
+tabBar.selectedTabIndex = 0  # select the first tab
 ```
-* **layer** The layer that expanded
-* **newHeight** The height that the layer expands to
-* **oldHeight** The height the layer expands from
-
-### accordion.on "contract", ->
-The contract message is fired when an accordion item contracts.
-```
-accordion.on "contact", (layer, newHeight, oldHeight) ->
-```
-* **layer** The layer that contracted
-* **newHeight** The height that the layer contracts to
-* **oldHeight** The height the layer contracts from
-## Sample Code
-```
-{Accordion} = require "accordion"
-
-accordion = new Accordion
-	width: 300
-	spacing: 1
-	singleSelect: true
-	
-# create 10 layers with normal heights of 60 and expanded heights of 200
-for i in [0...10]
-	layer = new Layer
-		width: accordion.width
-		height: 60
-		backgroundColor: Utils.randomColor(0.5)
-	Utils.labelLayer layer, "#{i+1}"
-	accordion.addItem layer, 200
-```
-## Sample Framer.js Project
-* [accordion.framer](https://framer.cloud/tIdTw)
+< MORE TO COME >
