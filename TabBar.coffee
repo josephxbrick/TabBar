@@ -1,26 +1,24 @@
-# TabPagesPanel (its use with TabBar is optional) holds content pages that are 
+# TabContent (use with TabBar is optional) holds content pages that are
 # controlled by the class TabBar. It won't be created unless it is accessed.
-
-# Note that this differs from PageComponent in that when navigating to a non-adjacent 
-# page, you don't see the pages between the prior page and the new page fly by.
-
-class TabPagesPanel extends Layer
+# Note that this differs from PageComponent in that when choosing non-adjacent
+# tabs, you don't see the pages between the prior page and the new page fly by.
+class TabContent extends Layer
 	constructor: (@options={}) ->
 		_.defaults @options,
 			backgroundColor: ""
-			name: "tabPagesPanel"
+			name: "TabContent"
 			clip: true
 		super @options
 		@currentPageIndex = undefined #current page index
 		@priorPageIndex = undefined #prior page index
 		@pages = []
-		
+
 		# handle swiping to change tabs
 		@onSwipeRightStart ->
 			@_selectPreviousPage()
 		@onSwipeLeftStart ->
 			@_selectNextPage()
-			
+
 	# call for each page to add
 	addPage: (layer) ->
 		@pages.push layer
@@ -43,10 +41,10 @@ class TabPagesPanel extends Layer
 	_selectNextPage: ->
 		if @currentPageIndex + 1 < @pages.length
 			@tabBar.selectTab @currentPageIndex + 1
-			
+
 	# selects tab to left. called on swipe
 	_selectPreviousPage: ->
-		if @currentPageIndex > 0			
+		if @currentPageIndex > 0
 			@tabBar.selectTab @currentPageIndex - 1
 
 	# called from the TabBar and slides the page into position.
@@ -66,9 +64,11 @@ class TabPagesPanel extends Layer
 			currentLayer.animate "default"
 		@priorPageIndex = @currentPageIndex
 		@currentPageIndex = index
-		@emit "change:page", 
+		@emit "change:page",
 			{index: @currentPageIndex, layer: @pages[@currentPageIndex]},
 			{index: @priorPageIndex, layer: @pages[@priorPageIndex]}
+	@define "currentPage",
+		get: -> @pages[@currentPageIndex]
 
 class exports.TabBar extends ScrollComponent
 	constructor: (@options={}) ->
@@ -86,7 +86,7 @@ class exports.TabBar extends ScrollComponent
 			backgroundColor: "#4C5BAE"
 			animationOptions: time: 0.275, curve: Bezier.ease
 		super @options
-		
+
 		@scrollVertical = false
 
 		# make tabBar layer
@@ -96,7 +96,7 @@ class exports.TabBar extends ScrollComponent
 			height: @height
 			parent: @content
 			backgroundColor: ""
-			
+
 		# make selection line
 		@tabSelectionLine = new Layer
 			name: "tabSelectionLine"
@@ -110,25 +110,25 @@ class exports.TabBar extends ScrollComponent
 		@currentTab = undefined  # holds currently selected tab layer
 		@priorTab = undefined  # holds tab layer that had previously been selected
 		@tabs = []
-		
+
 		@on "change:width", ->
 			@_layoutTabs()
-			
+
 		@_createTabs()
 
 # FUNCTIONS ================================================================
 
-	# create the panel holding the pages that the tabs control (optional).
-	# Created automatically if coder accesses it. (e.g., tabBar.pagesPanel)
-	createPagesPanel: ->
-		tcp = new TabPagesPanel
+	# create the layer holding the pages that the tabs control (optional).
+	# Created automatically if coder accesses it. (e.g., tabBar.tabContent)
+	createTabContent: ->
+		tcp = new TabContent
 			width: Screen.width
 			height: Screen.height - @height
 			y: @height
 			animationOptions: @animationOptions
 		tcp.tabBar = @
 		return tcp
-	
+
 	# make the tab layers
 	_createTabs: ->
 		# remove old tabs in case this is called after initialization
@@ -154,17 +154,17 @@ class exports.TabBar extends ScrollComponent
 				height: @tabBar.height
 				backgroundColor: ""
 				parent: @tabBar
-			@tabs.push tab		
-			
+			@tabs.push tab
+
 			tabLabel.parent = tab
-			@_labelWidths.push tabLabel.width 
+			@_labelWidths.push tabLabel.width
 
 			# handle click
 			tab.onClick (event, target) =>
 				@selectTab target
-				
+
 		@_layoutTabs()
-	
+
 	# scrolls appropriately when a tab is selected
 	_scrollToSelectedTab: (animated = true) ->
 		return if @currentTab is undefined
@@ -173,12 +173,12 @@ class exports.TabBar extends ScrollComponent
 			@animate scrollX: newScrollX
 		else
 			@scrollX = newScrollX
- 		
+
 	_layoutTabs: ->
 		widthOfAllTabs = 0
 		for width in @_labelWidths
 			widthOfAllTabs += width + @minimumPadding * 2
-			
+
 		if widthOfAllTabs >= @width - @contentInset.left - @contentInset.right
 			@tabBar.width = widthOfAllTabs + @firstLastTabInset * 2
 			@content.draggable.overdrag = true
@@ -222,9 +222,9 @@ class exports.TabBar extends ScrollComponent
 		@currentTab = layer
 		@_scrollToSelectedTab(animated)
 		if not forceSelection
-			# change the page in TabPagesPanel instance, if latter exists
-			@_pagesPanel?.selectPage @options.selectedTabIndex
-			@emit "change:tab", 
+			# change the page in TabContent instance, if latter exists
+			@_tabContent?.selectPage @options.selectedTabIndex
+			@emit "change:tab",
 				{index: @selectedTabIndex
 				layer: layer
 				text: @currentTab.selectChild("label").text},
@@ -232,16 +232,16 @@ class exports.TabBar extends ScrollComponent
 				layer: @priorTab
 				text: @priorTab?.selectChild("label").text}
 		return layer
-		
+
 	# Getters/Setters ===================================================
-	
-	# Create the pages panel if it is accessed (e.g., tabBar.pagesPanel)
-	@define "pagesPanel",
+
+	# Create the pages tabContent layer if the property is accessed (e.g., tabBar.tabContent)
+	@define "tabContent",
 		get: ->
-			if @_pagesPanel is undefined
-				return @_pagesPanel = @createPagesPanel()
+			if @_tabContent is undefined
+				return @_tabContent = @createTabContent()
 			else
-				return @_pagesPanel
+				return @_tabContent
 	@define "minimumPadding",
 		get: -> @options.minimumPadding
 		set: (value) ->
