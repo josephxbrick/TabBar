@@ -1,7 +1,7 @@
 # TabBar
 Framer component that creates a Material-Design style tab bar, which scrolls if necessary.
 
-<img src="/readme_images/tabbar_example.gif" width="206">
+<img src="/readme_images/tabbar_example.gif" width="247">
 
 [This sample](https://framer.cloud/fHheM) shows an example of using TabBar.
 ## Getting Started
