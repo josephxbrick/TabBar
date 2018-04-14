@@ -70,7 +70,7 @@ tabBar.on "change:tab", (currentTab, priorTab, target) ->
 	* **text**: the text in the label of the tab
 	* **layer**: the layer that makes up the tab
 
-* **prior**: an object representing the tab that was previously chosen, containing three properties
+* **priorTab**: an object representing the tab that previously had been chosen, containing three properties
 	* **index**: the zero-based index of the tab
 	* **text**: the text in the label of the tab
 	* **layer**: the layer that makes up the tab
@@ -94,7 +94,8 @@ tabBar.pagesPanel.on "change:page", (currentPage, priorPage, target) ->
 * **priorPage**: an object representing the page that had been displayed prior to the new selection, containing two properties
 	* **index**: the zero-based index of the page
 	* **layer**: the layer of the selected page
-	* **target**" the tabBar.pagesPanel layer itself
+
+* **target**" the tabBar.pagesPanel layer itself
 
 For example, to get a reference to the layer of the page that was just selected: 
 ```
