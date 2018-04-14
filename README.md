@@ -34,7 +34,7 @@ tabBar = new TabBar
 * **selectedColor**: the color of the tab text when it's selected (default: "white"). This is read-only after the instance is created.
 * **deselectedColor**: the color of the tab text when it's deselected (default: "rgba(255, 255, 255, 0.7)". This is read-only after the instance is created.
 
-## Adding tab pages (optional)
+## Adding Tab Pages (optional)
 You can add "pages" (layers, or Frames from Design) that correspond to each tab by adding them to the `tabContent` layer of the `TabBar` instance. (The `tabContent` layer is created only if you choose to do this.) The order in which the layers are added corresponds to the order of the tabs. So the first layer you add will be displayed when you choose the first tab, etc.  If you use `tabContent`, you must have the same number of pages as you have tabs.
 
 The following will add the the layers "layer1" through "layer5" to the TabBar instance `tabBar`:
@@ -43,7 +43,7 @@ pages = ["layer1", "layer2", "layer3", "layer4", "layer5"]
 for page in pages
 	tabBar.tabContent.addPage page
  ```
-## Selecting a tab (through code) 
+## Selecting a Tab (through code) 
 You can select a tab either through the layer that represents the tab (if for some reason you have a reference to it) or - more likely - by the tab's (zero-based) index, by using tabBar.selectTab(value).
 
 ### selectTab(value, animated)
