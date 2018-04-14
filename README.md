@@ -66,39 +66,38 @@ Upon selecting a tab (either manually or though code), the "change:tab" message 
 tabBar.on "change:tab", (currentTab, priorTab, target) ->
 ```
 * **currentTab**: an object representing the tab that was chosen, containing three properties
-  * **index**: the zero-based index of the tab
-  * **text**: the text in the label of the tab
-  * **layer**: the layer that makes up the tab
+	* **index**: the zero-based index of the tab
+	* **text**: the text in the label of the tab
+	* **layer**: the layer that makes up the tab
 
 * **prior**: an object representing the tab that was previously chosen, containing three properties
-  * **index**: the zero-based index of the tab
-  * **text**: the text in the label of the tab
-  * **layer**: the layer that makes up the tab
+	* **index**: the zero-based index of the tab
+	* **text**: the text in the label of the tab
+	* **layer**: the layer that makes up the tab
 
 * **target**: this returns the tabBar itself.
   
- For example, to print the text of the tab label of the selected tab
- ```
- tabBar.on "change:tab", (currentTab, priorTab, target) ->
- 	print currentTab.text
- ```
- ### tabBar.pagesPanel.on "change:page"
- Similar to the `change:tab` message above, the pagesPanel emits a message when it displays a new page:
- ```
- tabBar.pagesPanel.on "change:page", (currentPage, priorPage, target) ->
- ```
- * **currentPage**: an object representing the page that is newly displayed, containing two properties
-  * **index**: the zero-based index of the page
-  * **layer**: the layer of the selected page
+For example, to print the text of the tab label of the selected tab
+```
+tabBar.on "change:tab", (currentTab, priorTab, target) ->
+	print currentTab.text
+```
+### tabBar.pagesPanel.on "change:page"
+Similar to the `change:tab` message above, the pagesPanel emits a message when it displays a new page:
+```
+tabBar.pagesPanel.on "change:page", (currentPage, priorPage, target) ->
+```
+* **currentPage**: an object representing the page that is newly displayed, containing two properties
+ 	* **index**: the zero-based index of the page
+ 	* **layer**: the layer of the selected page
   
- * **priorPage**: an object representing the page that had been displayed prior to the new selection, containing two properties
-  * **index**: the zero-based index of the page
-  * **layer**: the layer of the selected page
-  
-* **target**" the tabBar.pagesPanel layer itself
+* **priorPage**: an object representing the page that had been displayed prior to the new selection, containing two properties
+	* **index**: the zero-based index of the page
+	* **layer**: the layer of the selected page
+	* **target**" the tabBar.pagesPanel layer itself
 
- For example, to get a reference to the layer of the page that was just selected: 
- ```
- tabBar.pagesPanel on "change:page", (currentPage, priorPage, target) ->
- 	tabLayer = currentPage.layer
- ```
+For example, to get a reference to the layer of the page that was just selected: 
+```
+tabBar.pagesPanel on "change:page", (currentPage, priorPage, target) ->
+	tabLayer = currentPage.layer
+```
