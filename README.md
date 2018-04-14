@@ -14,7 +14,7 @@ Note that you can hit Ctrl+C in Modules (when TabBar is the active module) to co
 
 If you are not using Modules, download `tabbar.coffee`, place it in the `/modules` folder of your project, and in your coffeescript file, include the following.
 
-`{TabBar} = require "tabbar"`
+`{TabBar} = require "TabBar"`
 
 ## Creating a TabBar
 The following creates a TabBar instance with five items, with the second one selected by default:
