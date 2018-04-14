@@ -279,4 +279,4 @@ class exports.TabBar extends ScrollComponent
 	@define "selectedColor",
 		get: -> @options.selectedColor
 	@define "deselectedColor",
-		get: -> @options.desel
+		get: -> @options.deselectedColor
