@@ -22,7 +22,7 @@ The following creates a tab bar with five items, with the second one selected by
 ```
 tabBar = new TabBar
 	tabLabels: ["WESTWORLD","THE SOPRANOS", "OZ" , "GAME OF THRONES", "TRUE BLOOD"]
-  selectedTabIndex: 1 
+	selectedTabIndex: 1 
 ```
 * **tabLabels**: an array of strings that will be the labels of the menu items.
 * **selectedTabIndex**: the zero-based index of the tab you want selected
