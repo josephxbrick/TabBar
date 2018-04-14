@@ -27,7 +27,7 @@ class TabPagesPanel extends Layer
 		layer.parent = @
 		layer.size = @size
 		layer.animationOptions = @animationOptions
-		point: 0
+		layer.point = 0
 		# define states for sliding tabs in and out
 		layer.states =
 			default: x: 0 # shown
@@ -112,9 +112,9 @@ class exports.TabBar extends ScrollComponent
 		@tabs = []
 		
 		@on "change:width", ->
-			@layoutTabs()
+			@_layoutTabs()
 			
-		@createTabs()
+		@_createTabs()
 
 # FUNCTIONS ================================================================
 
@@ -130,12 +130,12 @@ class exports.TabBar extends ScrollComponent
 		return tcp
 	
 	# make the tab layers
-	createTabs: ->
+	_createTabs: ->
 		# remove old tabs in case this is called after initialization
 		for tab in @tabs
 			tab.parent = null
 			tab.destroy()
-# 		@widthOfAllTabs = 0
+
 		@tabs = []
 		@_labelWidths = [] # store natural widths of text labels
 		for label, i in @tabLabels
@@ -163,10 +163,10 @@ class exports.TabBar extends ScrollComponent
 			tab.onClick (event, target) =>
 				@selectTab target
 				
-		@layoutTabs()
+		@_layoutTabs()
 	
 	# scrolls appropriately when a tab is selected
-	scrollToSelectedTab: (animated = true) ->
+	_scrollToSelectedTab: (animated = true) ->
 		return if @currentTab is undefined
 		newScrollX = Math.max(0, Math.min(@currentTab.x + @currentTab.width/2 - @width/2, @tabBar.width - @width))
 		if animated
@@ -174,7 +174,7 @@ class exports.TabBar extends ScrollComponent
 		else
 			@scrollX = newScrollX
  		
-	layoutTabs: ->
+	_layoutTabs: ->
 		widthOfAllTabs = 0
 		for width in @_labelWidths
 			widthOfAllTabs += width + @minimumPadding * 2
@@ -220,7 +220,7 @@ class exports.TabBar extends ScrollComponent
 		else
 			@priorTab?.selectChild("label").color = @deselectedColor
 		@currentTab = layer
-		@scrollToSelectedTab(animated)
+		@_scrollToSelectedTab(animated)
 		if not forceSelection
 			# change the page in TabPagesPanel instance, if latter exists
 			@_pagesPanel?.selectPage @options.selectedTabIndex
@@ -245,25 +245,25 @@ class exports.TabBar extends ScrollComponent
 	@define "minimumPadding",
 		get: -> @options.minimumPadding
 		set: (value) ->
-			# avoid calling layoutTabs() when this property is set from constructor
+			# avoid calling _layoutTabs() when this property is set from constructor
 			if @__framerInstanceInfo?
 				@options.minimumPadding = value
-				@layoutTabs()
+				@_layoutTabs()
 	@define "firstLastTabInset",
 		get: -> @options.firstLastTabInset
 		set: (value) ->
-			# avoid calling layoutTabs() when this property is set from constructor
+			# avoid calling _layoutTabs() when this property is set from constructor
 			if @__framerInstanceInfo?
 				@options.firstLastTabInset = value
-				@layoutTabs()
+				@_layoutTabs()
 	@define "tabLabels",
 		get: -> @options.tabLabels
 		set: (value) ->
-			# avoid calling createTabs() when this property is set from constructor
+			# avoid calling _createTabs() when this property is set from constructor
 			if @__framerInstanceInfo?
 				@options.selectedTabIndex = Math.min(@selectedTabIndex, value.length - 1)
 				@options.tabLabels = value
-				@createTabs()
+				@_createTabs()
 	@define "selectedTabIndex",
 		get: -> @options.selectedTabIndex
 		set: (value) ->
@@ -279,4 +279,4 @@ class exports.TabBar extends ScrollComponent
 	@define "selectedColor",
 		get: -> @options.selectedColor
 	@define "deselectedColor",
-		get: -> @options.deselectedColor
+		get: -> @options.desel
