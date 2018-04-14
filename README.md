@@ -124,9 +124,7 @@ tabBar = new TabBar
 	height: 52
 	fontSize: 17
 	
-pages = [westworld, sopranos, oz, got, trueblood]
+pages = [westworld, sopranos, oz, got, trueblood] # an array of layers/frames created elsewhere
 for page in pages
 	tabBar.tabContent.addPage page
-	
-
 ```
