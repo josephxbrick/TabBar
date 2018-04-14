@@ -23,6 +23,7 @@ tabBar = new TabBar
 	tabLabels: ["WESTWORLD","THE SOPRANOS", "OZ" , "GAME OF THRONES", "TRUE BLOOD"]
 	selectedTabIndex: 1 
 ```
+### Constructor Properties
 * **tabLabels**: an array of strings that will be the labels of the menu items
 * **selectedTabIndex**: the zero-based index of the tab you want selected (default: 0)
 * **minimumPadding**: the minimum padding on either side of the tab text. If the width of the TabBar instance is less then the combined width of all tabs, then this minimum padding will be utilized and the tabs will scroll; otherwise, the padding of each tab increases automatically so the tabs fill the width of the TabBar instance (default: 8)
@@ -60,10 +61,19 @@ You can also select a tab by setting the selectedTabIndex property. The tabs wil
 tabBar.selectedTabIndex = 0  # select the first tab
 ```
 
-## Properties
-< More Soon>
+## Useful Properties
+Here are useful properties when dealing with a TabBar instance.
+### tabBar.currentTab 
+The layer that contains the current tab in the tabBar instance.
+### tabBar.currentTabIndex
+The zero-based index of the currently selected tab.
+### tabBar.tabContent
+The layer - created if accessed - containing "pages" (layer, or frames from Design) that correspond to the tabs in the TabBar instance.
+### tabBar.tabContent.currentPageIndex
+The zero-based index of the current page in the TabBar.tabContent instance.
+### tabBar.tabContent.currentPage
+The layer of the  current page in the TabBar.tabContent instance.
 ## Responding to Events
-
 ### tabBar.on "change:tab"
 Upon selecting a tab (either manually or though code), the "change:tab" message is emitted, which is handled as such:
 ```
