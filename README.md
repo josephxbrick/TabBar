@@ -8,7 +8,11 @@ Framer component that creates a Material-Design style tab bar, which scrolls if 
 
 If you have Modules installed, or want to use Modules to add this module to you project, click the badge below.
 
-< LINK TO COME >
+<a href='https://open.framermodules.com/TabBar'>
+    <img alt='Install with Framer Modules'
+    src='https://www.framermodules.com/assets/badge@2x.png' width='160' height='40' />
+</a>
+
 
 Note that you can hit Ctrl+C in Modules (when TabBar is the active module) to copy a code example that you can then paste into your file. 
 
