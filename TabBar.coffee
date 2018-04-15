@@ -200,7 +200,7 @@ class exports.TabBar extends ScrollComponent
 
 
 	selectTab: (value, animated = true, forceSelection = false) ->
-		if Utils.inspectObjectType(value) is "Layer"
+		if Utils.inspectObjectType(value).indexOf("Layer") >= 0 # workaround for inspectObjectType bug on moble.
 			layer = value
 		else if Utils.inspectObjectType(value) is "Number"
 			layer = @tabs[value]
