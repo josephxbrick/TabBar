@@ -1,0 +1,8 @@
+{
+	"name": "TabBar",
+	"description": "Module that adds a pagination indicator to the specified page component.",
+	"author": "Joseph Brick",
+	"example": "example.coffee",
+	"require": "{TabBar} = require 'TabBar'",
+	"install": "TabBar.coffee"
+}
