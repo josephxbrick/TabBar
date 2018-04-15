@@ -1,6 +1,6 @@
 {
 	"name": "TabBar",
-	"description": "Module that adds a pagination indicator to the specified page component.",
+	"description": "Creates Material Design style tabs, which scroll if necessary.",
 	"author": "Joseph Brick",
 	"example": "example.coffee",
 	"require": "{TabBar} = require 'TabBar'",
