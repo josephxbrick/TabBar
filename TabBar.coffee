@@ -81,7 +81,7 @@ class exports.TabBar extends ScrollComponent
 			selectedColor: "white"
 			deselectedColor: "rgba(255,255,255,0.7)"
 			selectedTabIndex: 0
-			minimumPadding: 8  # padding on either side of tab text
+			minimumPadding: 12  # padding on either side of tab text
 			firstLastTabInset: 5  # gap between left/right side of TabBar and first/last tab
 			backgroundColor: "#4C5BAE"
 			animationOptions: time: 0.275, curve: Bezier.ease
