@@ -23,7 +23,7 @@ tabBar = new TabBar
 	tabLabels: ["WESTWORLD","THE SOPRANOS", "OZ" , "GAME OF THRONES", "TRUE BLOOD"]
 	selectedTabIndex: 1 
 ```
-### Constructor Properties
+#### Constructor Properties
 * **tabLabels**: an array of strings that will be the labels of the menu items
 * **selectedTabIndex**: the zero-based index of the tab you want selected (default: 0)
 * **minimumPadding**: the minimum padding on either side of the tab text. If the width of the TabBar instance is less then the combined width of all tabs, then this minimum padding will be utilized and the tabs will scroll; otherwise, the padding of each tab increases automatically so the tabs fill the width of the TabBar instance (default: 12)
@@ -50,7 +50,7 @@ for page in pages
 ## Selecting a Tab (through code) 
 You can select a tab either through the layer that represents the tab (if for some reason you have a reference to it) or - more likely - by the tab's (zero-based) index, by using tabBar.selectTab(value).
 
-### selectTab(value, animated)
+#### selectTab(value, animated)
 
 * **value**: either the zero-based index of the desired tab, or the layer that makes up the tab.
 * **animated**: (boolean) `true` if you want the tabs to animate when you choose the tab, or `false` if not. Default is `true`
@@ -67,18 +67,18 @@ tabBar.selectedTabIndex = 0  # select the first tab
 
 ## Useful Properties
 Here are useful properties when dealing with a TabBar instance.
-### tabBar.currentTab 
+#### tabBar.currentTab 
 The layer that contains the current tab in the tabBar instance.
-### tabBar.currentTabIndex
+#### tabBar.currentTabIndex
 The zero-based index of the currently selected tab.
-### tabBar.tabContent
+#### tabBar.tabContent
 The layer - created if accessed - containing "pages" (layer, or frames from Design) that correspond to the tabs in the TabBar instance.
-### tabBar.tabContent.currentPageIndex
+#### tabBar.tabContent.currentPageIndex
 The zero-based index of the current page in the TabBar.tabContent instance.
-### tabBar.tabContent.currentPage
+#### tabBar.tabContent.currentPage
 The layer of the  current page in the TabBar.tabContent instance.
 ## Responding to Events
-### tabBar.on "change:tab"
+#### tabBar.on "change:tab"
 Upon selecting a tab (either manually or though code), the "change:tab" message is emitted, which is handled as such:
 ```
 tabBar.on "change:tab", (currentTab, priorTab, target) ->
@@ -100,7 +100,7 @@ For example, to print the text of the tab label of the selected tab:
 tabBar.on "change:tab", (currentTab, priorTab, target) ->
 	print currentTab.text
 ```
-### tabBar.tabContent.on "change:page"
+#### tabBar.tabContent.on "change:page"
 Similar to the `change:tab` message above, the tabContent layer of the TabBar instance emits a message when it displays a new page:
 ```
 tabBar.tabContent.on "change:page", (currentPage, priorPage, target) ->
