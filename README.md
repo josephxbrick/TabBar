@@ -26,7 +26,7 @@ tabBar = new TabBar
 ### Constructor Properties
 * **tabLabels**: an array of strings that will be the labels of the menu items
 * **selectedTabIndex**: the zero-based index of the tab you want selected (default: 0)
-* **minimumPadding**: the minimum padding on either side of the tab text. If the width of the TabBar instance is less then the combined width of all tabs, then this minimum padding will be utilized and the tabs will scroll; otherwise, the padding of each tab increases automatically so the tabs fill the width of the TabBar instance (default: 8)
+* **minimumPadding**: the minimum padding on either side of the tab text. If the width of the TabBar instance is less then the combined width of all tabs, then this minimum padding will be utilized and the tabs will scroll; otherwise, the padding of each tab increases automatically so the tabs fill the width of the TabBar instance (default: 12)
 * **firstLastTabInset**: the inset between the left/right end of the TabBar instance and the first/last tab. (default: 5).
 * **animationOptions**: the speed and curve of tab animation, which is used for the movement of the selection line, the scrolling of the tabs, and the changing of the selected/deselected tab states (default: time: 0.275, curve: Bezier.ease)
 * **font**: the font for the tab labels (default: Utils.loadWebFont "Roboto"). This is read-only after the instance is created.
@@ -122,13 +122,20 @@ tabBar.tabContent on "change:page", (currentPage, priorPage, target) ->
 ```
 ## Code Sample
 ```
+# file TabBar.coffee is in /modules folder
+{TabBar} = require "TabBar"
+
 # create tabBar instance
 tabBar = new TabBar
-	tabLabels: ["WESTWORLD","THE SOPRANOS", "OZ" , "GAME OF THRONES", "TRUE BLOOD"] 
-	height: 52
-	fontSize: 17
-	
-pages = [westworld, sopranos, oz, got, trueblood] # an array of layers/frames created elsewhere
-for page in pages
-	tabBar.tabContent.addPage page
+	tabLabels: ["HOME", "GAMES", "MOVIES & TV", "BOOKS", "MUSIC", "NEWSSTAND"]
+
+# create pages	
+for label in tabBar.tabLabels
+	layer = new Layer
+		width: Screen.width
+		height: Screen.height - tabBar.height
+		backgroundColor: Utils.randomColor 0.8
+	Utils.labelLayer layer, label
+	# add page to tabBar.tabContent
+	tabBar.tabContent.addPage layer
 ```
