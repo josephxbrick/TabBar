@@ -70,7 +70,7 @@ class TabContent extends Layer
 	@define "currentPage",
 		get: -> @pages[@currentPageIndex]
 
-class TabBar extends ScrollComponent
+class exports.TabBar extends ScrollComponent
 	constructor: (@options={}) ->
 		_.defaults @options,
 			tabLabels: ["TAB ONE","TAB TWO","TAB THREE"]
