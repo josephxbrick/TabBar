@@ -35,7 +35,7 @@ class RippleButton extends Layer
 	sendRipple: (event, target) ->
 		clickPoint = target.convertPointToLayer(event.point, target)
 		r = @selectChild("ripple")
-		r.size = Math.min(@width, @height)/10
+		r.size = 0
 		r.midX = clickPoint.x
 		r.midY = clickPoint.y
 		r.opacity = 1
