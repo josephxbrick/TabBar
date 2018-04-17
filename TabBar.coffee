@@ -1,4 +1,74 @@
-class TabContent extends Layer
+# button creates that creates a ripple effect when clicked
+class RippleButton extends Layer
+	constructor: (@options={}) ->
+		_.defaults @options,
+			backgroundColor: "white"
+			rippleColor: undefined
+			rippleOptions: time: 0.25, curve: Bezier.easeOut
+			triggerOnClick: true
+		super @options
+		if @rippleColor is undefined
+			@rippleColor = @backgroundColor.darken 10
+		@_clipper = new Layer
+			size: @size
+			parent: @
+			clip: true
+			backgroundColor: ""
+		@_ripple = new Layer
+			name: "ripple"
+			borderRadius: "50%"
+			backgroundColor: @rippleColor
+			parent: @_clipper
+			size: 0
+		@on "change:size", ->
+			@_clipper.size = @size
+		@_clipper.onClick (event, target) =>
+			if @triggerOnClick is true
+				@sendRipple event,target
+
+	# triggers ripple animation
+	# event and target come from click event on RippleButton instance
+	sendRipple: (event, target) ->
+		clickPoint = target.convertPointToLayer(event.point, target)
+		r = @selectChild("ripple")
+		r.size = Math.min(@width, @height)/10
+		r.midX = clickPoint.x
+		r.midY = clickPoint.y
+		r.opacity = 1
+		radius = @_longestRadius clickPoint, @
+		rippleAnimation = new Animation r,
+			size: radius * 2
+			x: clickPoint.x - radius
+			y: clickPoint.y - radius
+			options: @rippleOptions
+		fadeAnimation = new Animation r,
+			opacity: 0
+			options: 
+				time: 
+					rippleAnimation.options.time * 2.5
+				curve:
+					rippleAnimation.options.curve
+		rippleAnimation.restart()
+		fadeAnimation.restart()
+	
+	_longestRadius: (point, layer) ->
+		pointToUpperLeft = Math.sqrt( Math.pow(point.x, 2) + Math.pow(point.y, 2))
+		pointToUpperRight = Math.sqrt( Math.pow(layer.width - point.x, 2) + Math.pow(point.y, 2))
+		pointToLowerLeft = Math.sqrt( Math.pow(point.x, 2) + Math.pow(layer.height - point.y, 2))
+		pointToLowerRight = Math.sqrt( Math.pow(layer.width - point.x, 2) + Math.pow(layer.height - point.y, 2))
+		return Math.max pointToUpperLeft, pointToUpperRight, pointToLowerLeft, pointToLowerRight
+		
+	@define "rippleOptions",
+		get: -> @options.rippleOptions
+		set: (value) -> @options.rippleOptions = value
+	@define "rippleColor",
+		get: -> @options.rippleColor
+		set: (value) -> @options.rippleColor = value
+	@define "triggerOnClick",
+		get: -> @options.triggerOnClick
+		set: (value) -> @options.triggerOnClick = value
+
+class exports.TabContent extends Layer
 	constructor: (@options={}) ->
 		_.defaults @options,
 			backgroundColor: ""
@@ -70,7 +140,7 @@ class TabContent extends Layer
 	@define "currentPage",
 		get: -> @pages[@currentPageIndex]
 
-class exports.TabBar extends ScrollComponent
+class TabBar extends ScrollComponent
 	constructor: (@options={}) ->
 		_.defaults @options,
 			tabLabels: ["TAB ONE","TAB TWO","TAB THREE"]
@@ -78,12 +148,14 @@ class exports.TabBar extends ScrollComponent
 			height: 46
 			font: Utils.loadWebFont "Roboto"
 			fontSize: 15
+			ripple: true
+			rippleColor = undefined
 			selectedColor: "white"
 			deselectedColor: "rgba(255,255,255,0.7)"
 			selectedTabIndex: 0
 			minimumPadding: 12  # padding on either side of tab text
 			firstLastTabInset: 5  # gap between left/right side of TabBar and first/last tab
-			backgroundColor: "#4C5BAE"
+			backgroundColor: "cornflowerblue"
 			animationOptions: time: 0.275, curve: Bezier.ease
 		super @options
 
@@ -129,6 +201,7 @@ class exports.TabBar extends ScrollComponent
 		tcp.tabBar = @
 		return tcp
 
+
 	# make the tab layers
 	_createTabs: ->
 		# remove old tabs in case this is called after initialization
@@ -149,11 +222,17 @@ class exports.TabBar extends ScrollComponent
 				text: label
 				animationOptions: @animationOptions
 			# make tab
-			tab = new Layer
+			props =
 				name: "tab_#{i}"
 				height: @tabBar.height
-				backgroundColor: ""
+				backgroundColor: @backgroundColor
 				parent: @tabBar
+				animationOptions: @animationOptions
+			if @options.ripple is true
+				tab = new RippleButton props
+				tab.triggerOnClick = false
+			else
+				tab = new Layer props
 			@tabs.push tab
 
 			tabLabel.parent = tab
@@ -161,8 +240,10 @@ class exports.TabBar extends ScrollComponent
 
 			# handle click
 			tab.onClick (event, target) =>
-				@selectTab target
-
+				if @currentTab isnt target
+					if target.constructor.name is "RippleButton"
+						target.sendRipple event, target
+					@selectTab target
 		@layoutTabs()
 
 	# scrolls appropriately when a tab is selected
@@ -196,13 +277,14 @@ class exports.TabBar extends ScrollComponent
 			@tabs[i].selectChild("label").point = Align.center
 			runningLeft += @tabs[i].width
 		@selectTab @selectedTabIndex, false, true
+		@tabSelectionLine.bringToFront()
 		@updateContent()
 
 
 	selectTab: (value, animated = true, forceSelection = false) ->
-		if Utils.inspectObjectType(value).indexOf("Layer") >= 0 # workaround for inspectObjectType bug on moble.
+		if Utils.inspectObjectType(value) isnt "Number"
 			layer = value
-		else if Utils.inspectObjectType(value) is "Number"
+		else 
 			layer = @tabs[value]
 		return if layer is @currentTab and not forceSelection
 		@options.selectedTabIndex = _.indexOf @tabs, layer
@@ -236,6 +318,12 @@ class exports.TabBar extends ScrollComponent
 	# Getters/Setters ===================================================
 
 	# Create the pages tabContent layer if the property is accessed (e.g., tabBar.tabContent)
+	@define "newTab",
+		get: ->
+			if @options.ripple is true
+				button = new RippleButton
+			else
+				button = new Layer
 	@define "tabContent",
 		get: ->
 			if @_tabContent is undefined
