@@ -37,6 +37,8 @@ tabBar = new TabBar
 * **fontSize**: the font size for the tab labels (default: 15). This is read-only after the instance is created.
 * **selectedColor**: the color of the tab text when it's selected (default: "white"). This is read-only after the instance is created.
 * **deselectedColor**: the color of the tab text when it's deselected (default: "rgba(255, 255, 255, 0.7)". This is read-only after the instance is created.
+* **ripple**: (boolean) whether a clicked tab shows the Material Design ripple animation (default: true).
+* **rippleColor** the color of the circle that is animated in the ripple animation (default: tabBar.backgroundColor.darken 10). Ignored if tabBar.ripple is false.
 
 ## Adding Tab Pages (optional)
 You can add "pages" (layers, or Frames from Design) that correspond to each tab by adding them to the `tabContent` layer of the `TabBar` instance. (The `tabContent` layer is created only if you choose to do this.) 
