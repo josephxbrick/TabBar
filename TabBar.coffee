@@ -9,14 +9,14 @@ class RippleButton extends Layer
 		super @options
 		if @rippleColor is undefined
 			@rippleColor = @backgroundColor.darken 10
-			
+
 		# layer that contains @_ripple circle
 		@_clipper = new Layer
 			size: @size
 			parent: @
 			clip: true
 			backgroundColor: ""
-		
+
 		# circle that animates to create ripple effect
 		@_ripple = new Layer
 			name: "ripple"
@@ -47,21 +47,21 @@ class RippleButton extends Layer
 			options: @rippleOptions
 		fadeAnimation = new Animation r,
 			opacity: 0
-			options: 
-				time: 
+			options:
+				time:
 					rippleAnimation.options.time * 2.5
 				curve:
 					rippleAnimation.options.curve
 		rippleAnimation.restart()
 		fadeAnimation.restart()
-	
+
 	_longestRadius: (point, layer) ->
 		pointToUpperLeft = Math.sqrt( Math.pow(point.x, 2) + Math.pow(point.y, 2))
 		pointToUpperRight = Math.sqrt( Math.pow(layer.width - point.x, 2) + Math.pow(point.y, 2))
 		pointToLowerLeft = Math.sqrt( Math.pow(point.x, 2) + Math.pow(layer.height - point.y, 2))
 		pointToLowerRight = Math.sqrt( Math.pow(layer.width - point.x, 2) + Math.pow(layer.height - point.y, 2))
 		return Math.max pointToUpperLeft, pointToUpperRight, pointToLowerLeft, pointToLowerRight
-		
+
 	@define "rippleOptions",
 		get: -> @options.rippleOptions
 		set: (value) -> @options.rippleOptions = value
@@ -72,7 +72,7 @@ class RippleButton extends Layer
 		get: -> @options.triggerOnClick
 		set: (value) -> @options.triggerOnClick = value
 
-class exports.TabContent extends Layer
+class TabContent extends Layer
 	constructor: (@options={}) ->
 		_.defaults @options,
 			backgroundColor: ""
@@ -144,7 +144,7 @@ class exports.TabContent extends Layer
 	@define "currentPage",
 		get: -> @pages[@currentPageIndex]
 
-class TabBar extends ScrollComponent
+class exports.TabBar extends ScrollComponent
 	constructor: (@options={}) ->
 		_.defaults @options,
 			tabLabels: ["TAB ONE","TAB TWO","TAB THREE"]
@@ -288,7 +288,7 @@ class TabBar extends ScrollComponent
 	selectTab: (value, animated = true, forceSelection = false) ->
 		if Utils.inspectObjectType(value) isnt "Number"
 			layer = value
-		else 
+		else
 			layer = @tabs[value]
 		return if layer is @currentTab and not forceSelection
 		@options.selectedTabIndex = _.indexOf @tabs, layer
