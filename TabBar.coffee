@@ -1,4 +1,4 @@
-# button creates that creates a ripple effect when clicked
+# button that creates a ripple effect when clicked
 class RippleButton extends Layer
 	constructor: (@options={}) ->
 		_.defaults @options,
@@ -9,11 +9,15 @@ class RippleButton extends Layer
 		super @options
 		if @rippleColor is undefined
 			@rippleColor = @backgroundColor.darken 10
+			
+		# layer that contains @_ripple circle
 		@_clipper = new Layer
 			size: @size
 			parent: @
 			clip: true
 			backgroundColor: ""
+		
+		# circle that animates to create ripple effect
 		@_ripple = new Layer
 			name: "ripple"
 			borderRadius: "50%"
@@ -27,7 +31,7 @@ class RippleButton extends Layer
 				@sendRipple event,target
 
 	# triggers ripple animation
-	# event and target come from click event on RippleButton instance
+	# parameters event and target come from click event
 	sendRipple: (event, target) ->
 		clickPoint = target.convertPointToLayer(event.point, target)
 		r = @selectChild("ripple")
