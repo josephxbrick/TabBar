@@ -49,7 +49,7 @@ Once the tab pages are added to tabBar.tabContent layer, you can swipe the conte
 
 The following will add the the layers "layer1" through "layer5" to the TabBar instance `tabBar`:
 ```
-pages = ["layer1", "layer2", "layer3", "layer4", "layer5"]
+pages = [layer1, layer2, layer3, layer4, layer5]
 for page in pages
 	tabBar.tabContent.addPage page
  ```
