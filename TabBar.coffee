@@ -232,7 +232,8 @@ class exports.TabBar extends ScrollComponent
 				backgroundColor: @backgroundColor
 				parent: @tabBar
 				animationOptions: @animationOptions
-			if @options.ripple is true
+				rippleColor: @rippleColor
+			if @ripple is true
 				tab = new RippleButton props
 				tab.triggerOnClick = false
 			else
@@ -322,12 +323,7 @@ class exports.TabBar extends ScrollComponent
 	# Getters/Setters ===================================================
 
 	# Create the pages tabContent layer if the property is accessed (e.g., tabBar.tabContent)
-	@define "newTab",
-		get: ->
-			if @options.ripple is true
-				button = new RippleButton
-			else
-				button = new Layer
+
 	@define "tabContent",
 		get: ->
 			if @_tabContent is undefined
@@ -372,3 +368,9 @@ class exports.TabBar extends ScrollComponent
 		get: -> @options.selectedColor
 	@define "deselectedColor",
 		get: -> @options.deselectedColor
+	@define "rippleColor",
+		get: -> @options.rippleColor
+		set: (value) -> @options.rippleColor = value
+	@define "ripple",
+		get: -> @options.ripple
+		set: (value) -> @options.ripple = value
