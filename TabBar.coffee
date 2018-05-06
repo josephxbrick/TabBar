@@ -128,13 +128,13 @@ class TabContent extends Layer
 		priorLayer = @pages[@currentPageIndex]
 		# the current tab is to the right, so animate from the left
 		if  index > @currentPageIndex
-			currentLayer.x = Screen.width
+			currentLayer.x = @width
 			priorLayer.animate x: -priorLayer.width
 			currentLayer.animate x: 0
 		# the current tab is to the left, so animate from the right
 		else if index < @currentPageIndex
 			currentLayer.x = -currentLayer.width
-			priorLayer.animate x: Screen.width
+			priorLayer.animate x: @width
 			currentLayer.animate x: 0
 		@priorPageIndex = @currentPageIndex
 		@currentPageIndex = index
